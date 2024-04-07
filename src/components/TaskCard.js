@@ -37,6 +37,7 @@ export default function TaskCard({onEdit, onDelete ,id, title, content ,dueDate,
       <div className="bg-gray-100 px-4 py-2 flex justify-between items-center">
       {/* Opens up edit dialog -> save tasks and update */}
         <button className="text-sm text-gray-600" onClick={() => setIsEditTaskOpen(true) }>Edit</button>
+        <button className="text-sm text-gray-600" onClick={() => onDelete(id)}>Delete</button>
         <input type="checkbox" checked={isCompleted} onChange={toggleTaskComplete} className="form-checkbox h-5 w-5 text-indigo-600" />
       </div>
     </div>

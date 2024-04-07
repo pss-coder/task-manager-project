@@ -120,12 +120,10 @@ export default function App() {
                     isCompleted={task.isCompleted}
                     toggleTaskComplete = {() => toggleTaskComplete(index)}
                     onEdit={editTask}
-                    // onDelete={deleteTask(index)}
+                    onDelete={deleteTask}
                    />
                 )
               })}
-
-
             </div>
           </main>
         </div>
