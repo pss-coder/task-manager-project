@@ -2,18 +2,29 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
-const navigation = [
-    { name: 'All', href: '#', current: true },
-    { name: 'Upcoming', href: '#', current: false },
-    { name: 'Overdue', href: '#', current: false },
-    { name: 'Completed', href: '#', current: false },
-  ]
+// const navigation = [
+//     { name: 'All', href: '#', current: true },
+//     { name: 'Upcoming', href: '#', current: false },
+//     { name: 'Overdue', href: '#', current: false },
+//     { name: 'Completed', href: '#', current: false },
+//   ]
   
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
 
-export default function Header() {
+export default function Header({navigation, setNavigation}) {
+
+  const handleClick = (name) => {
+    setNavigation((prevNavigation) =>
+      prevNavigation.map((item) => ({
+        ...item,
+        current: item.name === name,
+      }))
+    );
+  };
+
+
     return (
       <div>
         <Disclosure as="nav" className="bg-white shadow-sm">
@@ -27,6 +38,7 @@ export default function Header() {
                         <a
                           key={item.name}
                           href={item.href}
+                          onClick={() => handleClick(item.name)} // Add onClick event
                           className={classNames(
                             item.current
                               ? 'border-indigo-500 text-gray-900'
@@ -77,6 +89,7 @@ export default function Header() {
                       key={item.name}
                       as="a"
                       href={item.href}
+                      onClick={() => handleClick(item.name)} // Add onClick event
                       className={classNames(
                         item.current
                           ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
