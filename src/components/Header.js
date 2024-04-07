@@ -13,7 +13,7 @@ import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/o
     return classes.filter(Boolean).join(' ')
   }
 
-export default function Header({navigation, setNavigation}) {
+export default function Header({navigation, setNavigation, setFilterOption}) {
 
   const handleClick = (name) => {
     setNavigation((prevNavigation) =>
@@ -22,6 +22,8 @@ export default function Header({navigation, setNavigation}) {
         current: item.name === name,
       }))
     );
+
+    setFilterOption(name)
   };
 
 
@@ -48,6 +50,7 @@ export default function Header({navigation, setNavigation}) {
                           aria-current={item.current ? 'page' : undefined}
                         >
                           {item.name}
+                          {item.count}
                         </a>
                       ))}
                     </div>
@@ -99,6 +102,7 @@ export default function Header({navigation, setNavigation}) {
                       aria-current={item.current ? 'page' : undefined}
                     >
                       {item.name}
+                      {item.count}
                     </Disclosure.Button>
                   ))}
                 </div>

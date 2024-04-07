@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import Footer from './Footer'
 import Header from './Header'
 import CreateTaskDialog from './CreateTaskDialog';
@@ -9,10 +9,10 @@ export default function App() {
 
   const [navigation, setNavigation] = useState (
     [
-      { name: 'All', href: '#', current: true },
-      { name: 'Upcoming', href: '#', current: false },
-      { name: 'Overdue', href: '#', current: false },
-      { name: 'Completed', href: '#', current: false },
+      { name: 'All', href: '#', current: true, count: 0},
+      { name: 'Upcoming', href: '#', current: false, count:0},
+      { name: 'Overdue', href: '#', current: false, count:0 },
+      { name: 'Completed', href: '#', current: false, count:0 },
     ]
   )
 
@@ -20,14 +20,58 @@ export default function App() {
   //TODO: to store in localstorage/sessionStorage
   const [tasks, setTasks] = useState([]);
 
-  const [displayedTasks, setDisplayedTasks] = useState([]);
+  
 
   // for adding task
   let [isCreateTaskOpen, SetIsCreateTaskOpen] = useState(false)
 
+  const [filteredTasks, setFilteredTasks] = useState([]); // State to hold filtered tasks
+
+  // based on sections
+  const [filterOption, setFilterOption] = useState('All'); // State to hold the current filter option
+
+
   const [priorityFilter, setPriorityFilter] = useState('All'); // State for priority filter
 
 
+  // Function to filter tasks based on the selected option
+  useEffect(() => {
+    if (filterOption === 'All') {
+      setFilteredTasks(tasks);
+    } else if (filterOption === 'Completed') {
+      setFilteredTasks(tasks.filter(task => task.isCompleted));
+    } else if (filterOption === 'Overdue') {
+      const today = new Date();
+      setFilteredTasks(tasks.filter(task => new Date(task.dueDate) < today));
+    } else if (filterOption === 'Upcoming') {
+      const today = new Date();
+      setFilteredTasks(tasks.filter(task => new Date(task.dueDate) >= today));
+    }
+    // else {
+    //   setFilteredTasks(tasks.filter(task => !task.isCompleted));
+    // }
+  }, [tasks, filterOption]);
+
+  useEffect(() => {
+    const counts = {
+      All: tasks.length,
+      Completed: tasks.filter(task => task.isCompleted).length,
+      Overdue: tasks.filter(task => {
+        const today = new Date();
+        return new Date(task.dueDate) < today;
+      }).length,
+      Upcoming: tasks.filter(task => {
+        const today = new Date();
+        return new Date(task.dueDate) >= today;
+      }).length,
+    };
+    setNavigation(prevNavigation =>
+      prevNavigation.map(item => ({
+        ...item,
+        count: counts[item.name]
+      }))
+    );
+  }, [tasks]);
 
   function addTask(newTask) {
     setTasks(prevTasks => {
@@ -76,7 +120,8 @@ export default function App() {
     <>
       <div>
 
-       <Header navigation={navigation} setNavigation={setNavigation} /> 
+       <Header navigation={navigation} setNavigation={setNavigation} 
+         setFilterOption={setFilterOption} /> 
 
         <div className="py-10">
           <header>
@@ -108,7 +153,7 @@ export default function App() {
             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
               <CreateTaskDialog open={isCreateTaskOpen} setOpen={SetIsCreateTaskOpen} onAdd={addTask} />
 
-              {tasks.map((task, index) => {
+              {filteredTasks.map((task, index) => {
                 return (
                   <TaskCard
                     key = {index}
