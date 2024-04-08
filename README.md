@@ -1,6 +1,26 @@
-# Getting Started with Create React App
+# TaskEase
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Objective
+The TaskEase App is a straightforward task management application, with an emphasis on core functionality and a user-friendly interface, built ontop of [React Framework](https://github.com/facebook/create-react-app), with backend storage using [LocalStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), with [TailwindCSS](https://tailwindcss.com/) as design.
+
+Link to Figma Wireframe [here](https://www.figma.com/file/ZlLaVOqbDfeVnTiR8NVREP/Task-Manager-Figjam-Wireframe?type=whiteboard&node-id=568%3A521&t=c0DRCB6FRSXQiATp-1).
+
+## Screenshoots
+![Home Dashboard](Dashboard.png)
+
+![Add Task](AddTask.png)
+
+![Search Task](SearchTask.png)
+
+
+
+
+## Installation
+- Clone the repository: git clone <repository-url>
+- Navigate to the project directory: cd task-manager-project
+- Install dependencies: npm install
+- Start the development server: npm start
+- Access the application in your browser at http://localhost:3000
 
 ## Available Scripts
 
@@ -14,11 +34,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
@@ -29,47 +44,78 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Core Features
+Built core features under 4-5 hours.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Dashboard
+- Upon accessing the application, users see a basic dashboard displaying a list of tasks.
+- Includes sections for upcoming tasks, overdue tasks, and completed tasks.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Task Management
+- Users can add, edit, and delete tasks.
+- Tasks include a title, description, due date, and priority level.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Priority Levels
+- Define three priority levels for tasks (e.g., High, Medium, Low).
+- Users can set and update the priority of each task.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Search and Filter
+- Implement a search functionality to find tasks quickly.
+- Allow users to filter tasks based on priority and completion status.
 
-## Learn More
+## Technical Requirements
+### Frontend
+- Utilized the React framework.
+- Implemented a simple and clean user interface.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Local Storage
+- Task data is stored locally using browser storage (localStorage).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Code Snippet
+```jsx
+// Function to filter tasks based on the selected option
+useEffect(() => {
+  let updatedTasks = tasks;
 
-### Code Splitting
+  if (filterOption === 'Completed') {
+    updatedTasks = tasks.filter(task => task.isCompleted);
+  } else if (filterOption === 'Overdue') {
+    const today = new Date();
+    updatedTasks = tasks.filter(task => new Date(task.dueDate) < today);
+  } else if (filterOption === 'Upcoming') {
+    const today = new Date();
+    updatedTasks = tasks.filter(task => new Date(task.dueDate) >= today);
+  }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  if (priorityFilter !== 'All') {
+    updatedTasks = updatedTasks.filter(task => task.priority === priorityFilter.toLowerCase());
+  }
 
-### Analyzing the Bundle Size
+  if (specificDate) {
+    updatedTasks = updatedTasks.filter(task => {
+      const dueDate = new Date(task.dueDate);
+      return dueDate.toDateString() === new Date(specificDate).toDateString();
+    });
+  }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  setFilteredTasks(updatedTasks);
+}, [tasks, filterOption, priorityFilter, specificDate]);
+```
 
-### Making a Progressive Web App
+### Performance Issue Tracking
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+In production, if there's a performance issue, I would:
+- Use performance monitoring tools to identify bottlenecks.
+- Analyze server logs and database queries for any anomalies.
+- Implement caching mechanisms to reduce server load.
+- Optimize code for efficiency, such as using memoization or lazy loading.
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-
-TO improve: 
-- use Date Range as better filtering mechanism
-- Instead of getting user to press edit, can edit on the fly, similar to Google Keep
+## Upcoming Features/Improvements
+I would consider adding:
+- Date range filtering for tasks.
+- Inline editing for tasks.
+- Improved layout in a kanban-style approach.
+- Enhanced filtering options, including date ranges.
+- Ability to create sub-tasks for each task.
+- Improve Search View
+- Keyboard shortcuts
