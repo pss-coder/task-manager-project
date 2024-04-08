@@ -35,7 +35,7 @@ export default function App() {
 
   const [priorityFilter, setPriorityFilter] = useState('All'); // State for priority filter
 
-  const [specificDate, setSpecificDate] = useState(null); // State for specific date filter
+  const [specificDate, setSpecificDate] = useState(""); // State for specific date filter
 
 
 
@@ -57,7 +57,7 @@ export default function App() {
       updatedTasks = updatedTasks.filter(task => task.priority === priorityFilter.toLowerCase());
     }
 
-    if (specificDate != null) {
+    if (specificDate) {
       console.log(specificDate)
       updatedTasks = updatedTasks.filter(task => {
         const dueDate = new Date(task.dueDate);
@@ -110,7 +110,6 @@ export default function App() {
       );
   }
 
-  //TODO
   function deleteTask(id) {
     setTasks(prevTask => {
       return prevTask.filter((taskItem, index) => {
@@ -189,7 +188,7 @@ export default function App() {
                       if (e.target.value) {
                         setSpecificDate(e.target.value)
                       } else {
-                        setSpecificDate(null)
+                        setSpecificDate("")
                       }
                       
                     }}

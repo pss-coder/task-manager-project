@@ -48,7 +48,7 @@ export default function TaskCard({ onEdit, onDelete, id, title, content, dueDate
         checked={isCompleted}
             onChange={toggleTaskComplete}
        />
-      <label for="task-complete" className="ml-2 text-sm text-gray-600">Mark as Completed</label>
+      <label htmlFor="task-complete" className="ml-2 text-sm text-gray-600">Mark as Completed</label>
     </div>
     <span className={`bg-yellow-400 text-white py-1 px-2 rounded-full text-xs ${priorityColors[priority]} `}>{priority} Priority</span>
   </div>
