@@ -5,12 +5,7 @@ import { UsersIcon } from '@heroicons/react/24/outline'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
 // TODO
-// change to tasks
-    // display task neatly
 // save every search results, after close
-
-
-
 const recent = []
 
 function classNames(...classes) {

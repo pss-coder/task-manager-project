@@ -62,7 +62,6 @@ export default function Header({navigation, setNavigation, setFilterOption, setI
                     >
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Search</span>
-                      {/* TODO: change to search ICON */}
                       <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
 
