@@ -13,7 +13,7 @@ import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/o
     return classes.filter(Boolean).join(' ')
   }
 
-export default function Header({navigation, setNavigation, setFilterOption}) {
+export default function Header({navigation, setNavigation, setFilterOption, setIsSearch}) {
 
   const handleClick = (name) => {
     setNavigation((prevNavigation) =>
@@ -22,7 +22,6 @@ export default function Header({navigation, setNavigation, setFilterOption}) {
         current: item.name === name,
       }))
     );
-
     setFilterOption(name)
   };
 
@@ -50,7 +49,7 @@ export default function Header({navigation, setNavigation, setFilterOption}) {
                           aria-current={item.current ? 'page' : undefined}
                         >
                           {item.name}
-                          {item.count}
+                          <p className='bg-gray-400 text-white ml-3 py-1 px-2 rounded-full text-xs'>{item.count}</p>
                         </a>
                       ))}
                     </div>
@@ -58,6 +57,7 @@ export default function Header({navigation, setNavigation, setFilterOption}) {
                   <div className="hidden sm:ml-6 sm:flex sm:items-center">
                     <button
                       type="button"
+                      onClick={() => setIsSearch(true)}
                       className="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
                       <span className="absolute -inset-1.5" />
@@ -106,6 +106,16 @@ export default function Header({navigation, setNavigation, setFilterOption}) {
                     </Disclosure.Button>
                   ))}
                 </div>
+                <button
+                      type="button"
+                      onClick={() => setIsSearch(true)}
+                      className="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                      <span className="absolute -inset-1.5" />
+                      <span className="sr-only">Search</span>
+                      {/* TODO: change to search ICON */}
+                      <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
+                    </button>
               </Disclosure.Panel>
             </>
           )}
