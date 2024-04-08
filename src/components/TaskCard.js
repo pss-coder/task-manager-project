@@ -2,7 +2,7 @@ import { useState } from "react";
 import EditTaskDialog from "./EditTaskDialog";
 
 // TaskCard.js
-export default function TaskCard({onEdit, onDelete ,id, title, content ,dueDate, priority, isCompleted, toggleTaskComplete }) {
+export default function TaskCard({ onEdit, onDelete, id, title, content, dueDate, priority, isCompleted, toggleTaskComplete }) {
 
   const priorityColors = {
     low: 'bg-green-200 text-green-800',
@@ -10,36 +10,50 @@ export default function TaskCard({onEdit, onDelete ,id, title, content ,dueDate,
     high: 'bg-red-200 text-red-800',
   };
 
-  // for adding task
-  let [isEditTaskOpen, setIsEditTaskOpen] = useState(false)
+  // State for controlling edit dialog
+  const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
+
+  
+
 
   return (
-    <div className="mt-2 border bg-white shadow-sm rounded-lg overflow-hidden mb-4">
-    <EditTaskDialog open={isEditTaskOpen} setOpen={setIsEditTaskOpen} onEdit={onEdit} 
-                    id={id}
-                    title = {title}
-                    content = {content}
-                    dueDate={ dueDate}
-                    priority={priority}
-                    isCompleted={isCompleted}
+    <div className="bg-white rounded-lg shadow-md p-4 m-2 w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
 
-    />
-      <div className="p-4">
-        <h2 className="text-lg font-semibold mb-2">{title}</h2>
-        <p className="text-sm text-gray-500 mb-4">{content}</p>
-        <div className="flex justify-between items-center">
-          <span className={`inline-block px-2 py-1 text-xs font-semibold rounded ${priorityColors[priority]}`}>
-            {priority}
-          </span>
-          <span className="text-sm text-gray-500">{dueDate}</span>
-        </div>
-      </div>
-      <div className="bg-gray-100 px-4 py-2 flex justify-between items-center">
-      {/* Opens up edit dialog -> save tasks and update */}
-        <button className="text-sm text-gray-600" onClick={() => setIsEditTaskOpen(true) }>Edit</button>
-        <button className="text-sm text-gray-600" onClick={() => onDelete(id)}>Delete</button>
-        <input type="checkbox" checked={isCompleted} onChange={toggleTaskComplete} className="form-checkbox h-5 w-5 text-indigo-600" />
-      </div>
+<EditTaskDialog
+        open={isEditTaskOpen}
+        setOpen={setIsEditTaskOpen}
+        onEdit={onEdit}
+        id={id}
+        title={title}
+        content={content}
+        dueDate={dueDate}
+        priority={priority}
+        isCompleted={isCompleted}
+      />
+
+  <div className="flex justify-between items-center mb-4">
+    <h2 className="text-lg font-semibold">{title}</h2>
+    <div className="flex space-x-2">
+      <button className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded focus:outline-none" 
+      onClick={() => setIsEditTaskOpen(true)}>Edit</button>
+
+      <button className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded focus:outline-none" 
+      onClick={() => onDelete(id)}>Delete</button>
     </div>
+  </div>
+  <p className="text-gray-700 mb-4">{content}</p>
+  <div className="flex justify-between items-center mb-2">
+    <div className="flex items-center">
+      <input type="checkbox" className="form-checkbox h-4 w-4 text-blue-500"
+        checked={isCompleted}
+            onChange={toggleTaskComplete}
+       />
+      <label htmlFor="task-complete" className="ml-2 text-sm text-gray-600">Mark as Completed</label>
+    </div>
+    <span className={`bg-yellow-400 text-white py-1 px-2 rounded-full text-xs ${priorityColors[priority]} `}>{priority} Priority</span>
+  </div>
+  <p className="text-sm text-gray-600">Due Date: {dueDate}</p>
+</div>
+
   );
 }
