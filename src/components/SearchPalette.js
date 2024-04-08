@@ -6,7 +6,7 @@ import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
 // TODO
 // save every search results, after close
-const recent = []
+//const recent = []
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')

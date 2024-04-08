@@ -17,9 +17,10 @@ export default function App() {
     ]
   )
 
-  // use State to store tasks
-  //TODO: to store in localstorage/sessionStorage
-  const [tasks, setTasks] = useState([]);
+  // retrieve from local storage
+  const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+  const [tasks, setTasks] = useState(storedTasks);
 
 
   const [isSearch, setIsSearch] = useState(false)
@@ -37,6 +38,12 @@ export default function App() {
 
   const [specificDate, setSpecificDate] = useState(""); // State for specific date filter
 
+
+  // update local storage when tasks change
+  useEffect(() => {
+    // Update local storage when tasks change
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
 
   // Function to filter tasks based on the selected option
